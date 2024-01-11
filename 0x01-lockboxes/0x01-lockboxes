@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """lockboxes Interview new Challenge"""
 
+
 def canUnlockAll(boxes):
     """lockboxes Interview new Challenge"""
     def dfs(box_index):
