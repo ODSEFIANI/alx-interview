@@ -1,38 +1,27 @@
 #!/usr/bin/python3
-'''Minimum Operations python3 challenge'''
+'''py module.
+'''
+import math
 
 
-def min_operations(n):
-    """optimztion
+def minOperations(n):
+    """Minimum Operations Function.
     """
-    current_chars = 1
-    clibBd = 0
-    operations_counter = 0
 
-    while current_chars < n:
-        if clibBd == 0:
-            clibBd = current_chars
-            operations_counter += 1
+    def custom_round(number):
+        """Round up.
+        """
+        decimal_part = number - int(number)
 
-        if current_chars == 1:
-            current_chars += clibBd
-            operations_counter += 1
-            continue
-
-        remaining_chars = n - current_chars
-
-        if remaining_chars < clibBd:
-            return 0
-
-        if remaining_chars % current_chars != 0:
-            current_chars += clibBd
-            operations_counter += 1
+        if decimal_part < 0.50:
+            return int(number)
         else:
-            clibBd = current_chars
-            current_chars += clibBd
-            operations_counter += 2
+            return int(number) + 1
 
-    if current_chars == n:
-        return operations_counter
-    else:
+    if n <= 1:
         return 0
+    if n % 2 == 0:
+        p = custom_round(math.log(n, 2) * 2)
+    else:
+        p = custom_round(math.log((n-1), 2) * 2)
+    return p
