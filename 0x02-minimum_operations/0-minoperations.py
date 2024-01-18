@@ -11,12 +11,12 @@ def minOperations(n):
     def custom_round(number):
         """Round up.
         """
-        decimal_part = number - int(number)  # Extract the decimal part
+        decimal_part = number - int(number)
 
         if decimal_part < 0.50:
-            return int(number)  # Round down
+            return int(number)
         else:
-            return int(number) + 1  # Round up
+            return int(number) + 1
 
     if n <= 1:
         return 0
