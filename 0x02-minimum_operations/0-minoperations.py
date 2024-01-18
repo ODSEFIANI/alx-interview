@@ -4,24 +4,22 @@
 import math
 
 
-def minOperations(n):
-    """Minimum Operations Function.
-    """
-
-    def custom_round(number):
-        """Round up.
-        """
-        decimal_part = number - int(number)
-
-        if decimal_part < 0.50:
-            return int(number)
-        else:
-            return int(number) + 1
-
+def min_operations(n):
+    """optmisation of number
+    of operations"""
     if n <= 1:
         return 0
-    if n % 2 == 0:
-        p = custom_round(math.log(n, 2) * 2)
-    else:
-        p = custom_round(math.log((n-1), 2) * 2)
-    return p
+
+    min_ops = 0
+    current_len = 1
+    clipboard = 0
+
+    while current_len < n:
+        if n % current_len == 0:
+            clipboard = current_len
+            min_ops += 1
+
+        current_len += clipboard
+        min_ops += 1
+
+    return min_ops
