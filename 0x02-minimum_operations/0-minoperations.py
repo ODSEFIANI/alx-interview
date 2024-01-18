@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 '''py module.
 '''
-import math
 
 
 def min_operations(n):
-    """optmisation of number
-    of operations"""
+    '''optmize the calcylation
+    and n operation.
+    Returns:
+        Integer : number of opration
+    '''
     if n <= 1:
         return 0
 
