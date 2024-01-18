@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
-'''py module
+'''py module.
 '''
 import math
 
 
 def minOperations(n):
-    """Minimum Operations Function"""
+    """Minimum Operations Function.
+    """
 
     def custom_round(number):
-        """Round up"""
+        """Round up.
+        """
         decimal_part = number - int(number)  # Extract the decimal part
 
         if decimal_part < 0.50:
