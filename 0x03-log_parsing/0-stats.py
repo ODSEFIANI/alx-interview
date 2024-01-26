@@ -6,6 +6,7 @@ A script that reads stdin line by line and computes metrics
 import sys
 import re
 
+
 def parse_log_line(line):
     """
     Parses a log line and extracts IP, status code, and file size.
@@ -25,17 +26,20 @@ def parse_log_line(line):
         return ip, status_code, file_size
     return None
 
+
 def print_statistics(total_size, status_counts):
     """
     Prints file size and status code statistics.
 
     Args:
     - total_size (int): Total file size.
-    - status_counts (dict): A dictionary containing counts for each status code.
+    - status_counts (dict): A dictionary containing counts
+    for each status code.
     """
     print(f"Total file size: {total_size}")
     for code in sorted(status_counts.keys()):
         print(f"{code}: {status_counts[code]}")
+
 
 def main():
     total_size = 0
@@ -61,6 +65,7 @@ def main():
 
     finally:
         print_statistics(total_size, status_counts)
+
 
 if __name__ == "__main__":
     main()
