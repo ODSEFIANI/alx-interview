@@ -2,28 +2,30 @@
 """
 A script that reads stdin line by line and computes metrics
 """
+
 import sys
+import re
 
-
-def extract_info(line):
+def parse_log_line(line):
     """
-    Extracts status code and file size information from a log line.
+    Parses a log line and extracts IP, status code, and file size.
 
     Args:
-    - line (str): A log line containing status code and file size.
+    - line (str): A log line.
 
     Returns:
-    - dict or None: A dictionary containing status code and file size if valid,
-      or None if the line format is invalid.
+    - tuple: A tuple containing IP, status code, and file size.
     """
-    parts = line.split()
-    if len(parts) >= 7:
-        status_code = int(parts[-2])
-        file_size = int(parts[-1])
-        return {'status_code': status_code, 'file_size': file_size}
+    log_pattern = r'(?P<ip>\d+\.\d+\.\d+\.\d+) - \[.*\] "GET /projects/260 HTTP/1.1" (?P<status_code>\d+) (?P<file_size>\d+)'
+    match = re.match(log_pattern, line)
+    if match:
+        ip = match.group('ip')
+        status_code = int(match.group('status_code'))
+        file_size = int(match.group('file_size'))
+        return ip, status_code, file_size
     return None
 
-def print_stats(total_size, status_counts):
+def print_statistics(total_size, status_counts):
     """
     Prints file size and status code statistics.
 
@@ -31,43 +33,34 @@ def print_stats(total_size, status_counts):
     - total_size (int): Total file size.
     - status_counts (dict): A dictionary containing counts for each status code.
     """
-    print(f"File size: {total_size}")
-    for code, count in sorted(status_counts.items()):
-        print(f"{code}: {count}")
+    print(f"Total file size: {total_size}")
+    for code in sorted(status_counts.keys()):
+        print(f"{code}: {status_counts[code]}")
 
 def main():
-    """
-    Main function to read stdin, compute metrics, and print statistics.
-    """
     total_size = 0
     status_counts = {}
 
     try:
         for i, line in enumerate(sys.stdin, start=1):
-            try:
-                info = extract_info(line)
-                if info:
-                    status_code = info['status_code']
-                    file_size = info['file_size']
+            log_info = parse_log_line(line)
+            if log_info:
+                ip, status_code, file_size = log_info
 
-                    total_size += file_size
+                total_size += file_size
 
-                    if status_code in [200, 301, 400, 401, 403, 404, 405, 500]:
-                        status_counts.setdefault(status_code, 0)
-                        status_counts[status_code] += 1
+                if status_code in [200, 301, 400, 401, 403, 404, 405, 500]:
+                    status_counts.setdefault(status_code, 0)
+                    status_counts[status_code] += 1
 
-                    if i % 10 == 0:
-                        print_stats(total_size, status_counts)
-
-            except ValueError:
-                # Skip lines with invalid status codes or file sizes
-                pass
+                if i % 10 == 0:
+                    print_statistics(total_size, status_counts)
 
     except KeyboardInterrupt:
         pass
 
     finally:
-        print_stats(total_size, status_counts)
+        print_statistics(total_size, status_counts)
 
 if __name__ == "__main__":
     main()
