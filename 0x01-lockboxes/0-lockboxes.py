@@ -1,9 +1,11 @@
 #!/usr/bin/python3
+'''py
+module'''
 from collections import Counter
 
 
 def canUnlockAll(boxes):
-
+    """unlock box using math formula"""
     list1 = list(range(0, len(boxes)))
     print(list1)
     list2 = []
