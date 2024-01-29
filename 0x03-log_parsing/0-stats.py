@@ -2,40 +2,52 @@
 """
 A script that reads stdin line by line and computes metrics
 """
-import requests
-import redis
-from functools import wraps
-from typing import Callable
 
-CACHE = redis.Redis()
+import sys
 
 
-def cache_decorator(func: Callable) -> Callable:
-    """Decorator to cache the result of a function with expiration time."""
-
-    @wraps(func)
-    def wrapper(url: str) -> str:
-        """Wrapper function to add caching and counting functionality."""
-        count_key = f"request_count:{url}"
-        result_key = f"response_result:{url}"
-
-        CACHE.incr(count_key)
-        result = CACHE.get(result_key)
-
-        if result:
-            return result.decode('utf-8')
-
-        result = func(url)
-
-        CACHE.set(count_key, 0)
-        CACHE.setex(result_key, 10, result)
-
-        return result
-
-    return wrapper
+def print_statistics(status_counts, total_size):
+    """
+    Print statistics based on status counts and total size.
+    """
+    print("Total file size: {}".format(total_size))
+    for status_code, count in sorted(status_counts.items()):
+        if count != 0:
+            print("{}: {}".format(status_code, count))
 
 
-@cache_decorator
-def get_page(url: str) -> str:
-    """Get the response content for a given URL."""
-    return requests.get(url).text
+status_counts = {
+    "200": 0,
+    "301": 0,
+    "400": 0,
+    "401": 0,
+    "403": 0,
+    "404": 0,
+    "405": 0,
+    "500": 0
+}
+
+total_size = 0
+line_count = 0
+
+try:
+    for line in sys.stdin:
+        parsed_line = line.split()
+        parsed_line = parsed_line[::-1]
+
+        if len(parsed_line) > 2:
+            line_count += 1
+
+            if line_count <= 10:
+                total_size += int(parsed_line[0])
+                status_code = parsed_line[1]
+
+                if status_code in status_counts:
+                    status_counts[status_code] += 1
+
+            if line_count == 10:
+                print_statistics(status_counts, total_size)
+                line_count = 0
+
+finally:
+    print_statistics(status_counts, total_size)
