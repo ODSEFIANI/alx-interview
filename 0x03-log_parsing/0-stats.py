@@ -3,21 +3,21 @@
 import sys
 
 
-def print_msg(dc, fileSize):
+def print_msg(di_ct, fileSize):
     """
-    Method to print
+    Method py
     """
 
     print("File size: {}".format(fileSize))
-    for k, v in sorted(dc.items()):
-        if v != 0:
-            print("{}: {}".format(k, v))
+    for a, b in sorted(di_ct.items()):
+        if b != 0:
+            print("{}: {}".format(a, b))
 
 
 fileSize = 0
-code = 0
-count = 0
-dc = {"200": 0,
+c_od = 0
+co_unter = 0
+di_ct = {"200": 0,
            "301": 0,
            "400": 0,
            "401": 0,
@@ -32,18 +32,18 @@ try:
         parsed_line = parsed_line[::-1]
 
         if len(parsed_line) > 2:
-            count += 1
+            co_unter += 1
 
-            if count <= 10:
+            if co_unter <= 10:
                 fileSize += int(parsed_line[0])
-                code = parsed_line[1]
+                c_od = parsed_line[1]
 
-                if (code in dc.keys()):
-                    dc[code] += 1
+                if (c_od in di_ct.keys()):
+                    di_ct[c_od] += 1
 
-            if (count == 10):
-                print_msg(dc, fileSize)
-                count = 0
+            if (co_unter == 10):
+                print_msg(di_ct, fileSize)
+                co_unter = 0
 
 finally:
-    print_msg(dc, fileSize)
+    print_msg(di_ct, fileSize)
