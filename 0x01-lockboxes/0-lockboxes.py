@@ -1,44 +1,29 @@
 #!/usr/bin/python3
-'''py
-module'''
-from collections import Counter
+'''py'''
 
 
 def canUnlockAll(boxes):
-    """unlock box using math formula"""
-    list1 = list(range(0, len(boxes)))
-    print(list1)
-    list2 = []
-    locked = []
-    match = []
-    duplicates = []
+    """checks if alll boxes can be opened
+    """
+    items = len(boxes)
+    clés = set()
+    op_boxe = []
+    i = 0
 
-    for index, box in enumerate(boxes):
-        for value in box:
-            list2.append(value)
+    while i < items:
+        oldi = i
+        op_boxe.append(i)
+        clés.update(boxes[i])
+        for clé in clés:
+            if clé != 0 and clé < items and clé not in op_boxe:
+                i = clé
+                break
+        if oldi != i:
+            continue
+        else:
+            break
 
-            # Check if the value is equal to the box number
-            if value == index:
-                match.append(value)
-
-    # Count occurrences of each value in list2
-    counter = Counter(list2)
-
-    # Find duplicates in list2
-    duplicates = [item for item, count in counter.items() if count > 1]
-
-    # Check if all elements in match are also duplicates
-    for value in match:
-        if value not in duplicates:
+    for i in range(items):
+        if i not in op_boxe and i != 0:
             return False
-
-    # Check for locked boxes
-    for elem in list2:
-        if elem not in list1:
-            locked.append(elem)
-
-    # Check if all boxes can be opened
-    if len(locked) == 0:
-        return True
-    else:
-        return False
+    return True
