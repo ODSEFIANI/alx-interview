@@ -12,7 +12,7 @@ const fetchCharacters = async () => {
     request(filmEndPointUrl, (error, response, body) => {
       if (error || response.statusCode !== 200) {
         console.error('Error: ', error, '| StatusCode: ', response.statusCode);
-        reject('Failed to fetch film data'); // Reject the promise with an error message
+        reject(new Error('Failed to fetch film data')); // Reject the promise with an Error object
       } else {
         const filmData = JSON.parse(body);
         characters = filmData.characters;
@@ -29,7 +29,7 @@ const fetchCharacterNames = async () => {
         request(characterUrl, (error, response, body) => {
           if (error || response.statusCode !== 200) {
             console.error('Error: ', error, '| StatusCode: ', response.statusCode);
-            reject('Failed to fetch character data'); // Reject the promise with an error message
+            reject(new Error('Failed to fetch character data')); // Reject the promise with an Error object
           } else {
             const characterData = JSON.parse(body);
             characterNames.push(characterData.name);
@@ -39,7 +39,7 @@ const fetchCharacterNames = async () => {
       });
     }
   } else {
-    console.error('Error: No characters were fetched !');
+    console.error('Error: No characters were fetched!');
   }
 };
 
@@ -56,7 +56,7 @@ const displayCharacterNames = async () => {
       }
     }
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error:', error.message); // Access the error message property
   }
 };
 
