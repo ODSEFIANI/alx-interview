@@ -4,7 +4,7 @@ py module, dynamic programming
 '''
 import sys
 
-def minCoins(coins, total):
+def makeChange(coins, total):
     '''
     Return: Fewest number of coins needed to meet the total amount.
     
