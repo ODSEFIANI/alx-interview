@@ -4,7 +4,8 @@
 
 
 def island_perimeter(grid):
-    """Calculates the island perimeter.
+    """
+    Calculates the island perimeter.
 
     Args:
         grid: A list of lists of integers representing the island.
