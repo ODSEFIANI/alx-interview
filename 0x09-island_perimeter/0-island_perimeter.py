@@ -2,6 +2,7 @@
 
 """Module that calculates the island perimeter."""
 
+
 def island_perimeter(grid):
     """Calculates the island perimeter.
 
@@ -46,31 +47,31 @@ def island_perimeter(grid):
                 ):
                     raise ValueError("normal isolated island")
                 if col == 0:
-                    # Check top, bottom, and right for cells on the extreme left
+
                     if (
                         row > 0 and grid[row - 1][col] == 0 and
                         row < rows - 1 and grid[row + 1][col] == 0 and
                         col < cols - 1 and grid[row][col + 1] == 0
                     ):
-                        raise ValueError("Isolated cell at the extreme left position.")
+                        raise ValueError("extreme left position.")
 
                 elif col == cols - 1:
-                    # Check top, bottom, and left for cells on the extreme right
+
                     if (
                         row > 0 and grid[row - 1][col] == 0 and
                         row < rows - 1 and grid[row + 1][col] == 0 and
                         col > 0 and grid[row][col - 1] == 0
                     ):
-                        raise ValueError("Isolated cell at the extreme right position.")
+                        raise ValueError("extreme right position.")
 
                 elif row == 0:
-                    # Check left, right, and bottom for cells at the top
+
                     if (
                         col > 0 and grid[row][col - 1] == 0 and
                         col < cols - 1 and grid[row][col + 1] == 0 and
                         row < rows - 1 and grid[row + 1][col] == 0
                     ):
-                        raise ValueError("Isolated cell at the top position.")
+                        raise ValueError(" top position.")
 
                 elif row == rows - 1:
                     # Check left, right, and top for cells at the bottom
@@ -79,22 +80,33 @@ def island_perimeter(grid):
                         col < cols - 1 and grid[row][col + 1] == 0 and
                         row > 0 and grid[row - 1][col] == 0
                     ):
-                        raise ValueError("Isolated cell at the bottom position.")
+                        raise ValueError("I bottom position.")
 
     # Check for corner positions
     if grid[0][0] == 1 and grid[0][1] == 0 and grid[1][0] == 0:
         raise ValueError("Isolated cell at the top-left corner.")
 
-    if grid[0][cols - 1] == 1 and grid[0][cols - 2] == 0 and grid[1][cols - 1] == 0:
+    if (
+        grid[0][cols - 1] == 1
+        and grid[0][cols - 2] == 0
+        and grid[1][cols - 1] == 0
+    ):
         raise ValueError("Isolated cell at the top-right corner.")
 
-    if grid[rows - 1][0] == 1 and grid[rows - 1][1] == 0 and grid[rows - 2][0] == 0:
+    if (
+        grid[rows - 1][0] == 1
+        and grid[rows - 1][1] == 0
+        and grid[rows - 2][0] == 0
+    ):
         raise ValueError("Isolated cell at the bottom-left corner.")
 
-    if grid[rows - 1][cols - 1] == 1 and grid[rows - 1][cols - 2] == 0 and grid[rows - 2][cols - 1] == 0:
+    if (
+        grid[rows - 1][cols - 1] == 1 and
+        grid[rows - 1][cols - 2] == 0
+        and grid[rows - 2][cols - 1] == 0
+    ):
         raise ValueError("Isolated cell at the bottom-right corner.")
 
     area = num_land_boxes * 4
     perimeter = area - removed_lines
     return perimeter
-
